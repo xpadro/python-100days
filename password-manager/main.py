@@ -63,6 +63,22 @@ def save():
             password_input.delete(0, END)
 
 
+def search():
+    web = website_input.get()
+    try:
+        with open("data.json", "r") as f:
+            existing_data = json.load(f)
+    except FileNotFoundError:
+        messagebox.showerror(title="Oops", message="No data found")
+    else:
+        if web in existing_data:
+            email = existing_data[web]['email']
+            password = existing_data[web]['password']
+            messagebox.showinfo(title=f"{web}", message=f"Email: {email}\nPassword: {password}")
+        else:
+            messagebox.showerror(title="Oops", message="Web not found")
+
+
 # ---------------------------- UI SETUP ------------------------------- #
 
 
@@ -78,14 +94,14 @@ canvas.grid(row=0, column=1)
 website_label = Label(text="Website")
 website_label.grid(row=1, column=0)
 
-email_label = Label(text="Email/Username")
+email_label = Label(text="Email")
 email_label.grid(row=2, column=0)
 
 password_label = Label(text="Password")
 password_label.grid(row=3, column=0)
 
-website_input = Entry(width=35)
-website_input.grid(row=1, column=1, columnspan=2)
+website_input = Entry(width=21)
+website_input.grid(row=1, column=1)
 website_input.focus()
 
 email_input = Entry(width=35)
@@ -100,5 +116,8 @@ generate_button.grid(row=3, column=2)
 
 add_button = Button(text="Add", width=36, command=save)
 add_button.grid(row=4, column=1, columnspan=2)
+
+search_button = Button(text="Search", command=search)
+search_button.grid(row=1, column=2)
 
 window.mainloop()
