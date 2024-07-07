@@ -24,6 +24,6 @@ def send_quote(quote):
 
 now = dt.datetime.now()
 if now.weekday() == 6:
-    with open("quotes.txt", "r") as f:
-        today_quote = get_quote()
-        send_quote(today_quote)
+    today_quote = get_quote()
+    send_quote(today_quote)
+
