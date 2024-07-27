@@ -3,35 +3,49 @@ import pandas
 import random
 import smtplib
 
-email = "your_email"
-password = "your_app_password"
+GMAIL_SMTP = "smtp.gmail.com"
+EMAIL = "your_email"
+PASSWORD = "your_app_password"
+BIRTHDAYS_FILE = "birthdays.csv"
+LETTER_TEMPLATES_PATH = "letter_templates/"
 
 
-today = (dt.datetime.now().month, dt.datetime.now().day)
+def load_birthdays():
+    birthdays = pandas.read_csv(BIRTHDAYS_FILE)
 
-birthdays = pandas.read_csv("birthdays.csv")
+    # new_dict = {new_key: new_value for (index, row) in birthdays.iterrows()}
+    return {(row["month"], row["day"]): row for (index, row) in birthdays.iterrows()}
 
-# new_dict = {new_key: new_value for (index, row) in birthdays.iterrows()}
-birthdays_dict = {(row["month"], row["day"]): row for (index, row) in birthdays.iterrows()}
 
-if today in birthdays_dict:
-    person = birthdays_dict[today]
-    print(person["name"])
+def send_email(letter):
+    with smtplib.SMTP(GMAIL_SMTP, port=587) as connection:
+        connection.starttls()
+        connection.login(user=EMAIL, password=PASSWORD)
+        connection.sendmail(
+            from_addr=EMAIL,
+            to_addrs=EMAIL,
+            msg=f"Subject:Happy Birthday!\n\n{letter}")
 
+
+def send_birthday_wisher(person_name):
     letter_num = random.randint(1, 3)
     file_name = f"letter_{letter_num}.txt"
 
-    with open("letter_templates/" + file_name, "r") as f:
+    with open(LETTER_TEMPLATES_PATH + file_name, "r") as f:
         letter = f.read()
-        letter = letter.replace("[NAME]", person["name"])
-        print(letter)
+        letter = letter.replace("[NAME]", person_name["name"])
+        send_email(letter)
 
-        with smtplib.SMTP("smtp.gmail.com", port=587) as connection:
-            connection.starttls()
-            connection.login(user=email, password=password)
-            connection.sendmail(
-                from_addr=email,
-                to_addrs=email,
-                msg=f"Subject:Happy Birthday!\n\n{letter}")
+
+today = (dt.datetime.now().month, dt.datetime.now().day)
+birthdays_dict = load_birthdays()
+
+if today in birthdays_dict:
+    person = birthdays_dict[today]
+    send_birthday_wisher(person)
+
+
+
+
 
 
