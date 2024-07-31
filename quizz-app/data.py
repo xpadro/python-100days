@@ -4,7 +4,8 @@ URL = "https://opentdb.com/api.php"
 
 PARAMETERS = {
     "amount": 10,
-    "type": "boolean"
+    "type": "boolean",
+    "category": 18
 }
 
 question_data = []
