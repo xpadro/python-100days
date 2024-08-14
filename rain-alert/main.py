@@ -1,13 +1,14 @@
+import os
 import requests
 from twilio.rest import Client
 
-TWILIO_ACCOUNT_SID = 'YOUR_ACCOUNT_SID'
-TWILIO_TOKEN = 'YOUR_API_KEY'
-TWILIO_VIRTUAL_PHONE = 'PHONE_FROM_TWILIO'
-TWILIO_TARGET_PHONE = 'YOUR_PHONE'
+TWILIO_ACCOUNT_SID = os.environ.get('TWILIO_SID')
+TWILIO_TOKEN = os.environ.get('TWILIO_TOKEN')
+TWILIO_VIRTUAL_PHONE = os.environ.get('TWILIO_VIRTUAL_PHONE')
+TWILIO_TARGET_PHONE = os.environ.get('TWILIO_TARGET_PHONE')
 
 URL = "https://api.openweathermap.org/data/2.5/forecast"
-WEATHER_API_KEY = "YOUR_API_KEY"
+WEATHER_API_KEY = os.environ.get('WEATHER_API_KEY')
 
 PARAMETERS = {
     "lat": 41.548630,
