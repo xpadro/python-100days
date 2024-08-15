@@ -25,19 +25,19 @@ def get_stock():
     return [value for (key, value) in time_series.items()]
 
 
-def call_news_api():
+def get_top_articles():
     """ Calls the news API and fetches COMPANY_NAME related articles
 
     :return: the first 3 articles for COMPANY_NAME
     """
     parameters = {
-        "q": COMPANY_NAME,
+        "qInTitle": COMPANY_NAME,
         "apiKey": os.environ.get('NEWS_API_KEY')
     }
 
     response = requests.get(NEWS_ENDPOINT, params=parameters)
     response.raise_for_status()
-    return response.json()
+    return response.json()['articles'][:3]
 
 
 ## STEP 3: Use twilio.com/docs/sms/quickstart/python
@@ -67,9 +67,8 @@ def main():
     diff_percentage = (positive_difference / yesterday_closing_price) * 100
 
     if diff_percentage > 5:
-        print("Get news")
-        content = call_news_api()
-        print(content)
+        first_3_articles = get_top_articles()
+        print(first_3_articles)
 
 
 main()
