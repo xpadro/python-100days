@@ -1,11 +1,14 @@
 import requests
+from datetime import datetime as dt
+
 
 USERNAME = "xpadro"
 USER_TOKEN = "ad3nw987wn98en"
 
-API_CREATE_USER = "https://pixe.la/v1/users"
-API_CREATE_GRAPH = f"https://pixe.la/v1/users/{USERNAME}/graphs"
-API_ADD_PIXEL = f"https://pixe.la/v1/users/{USERNAME}/graphs/graph1"
+API_BASE_URL = "https://pixe.la/v1"
+API_CREATE_USER = f"{API_BASE_URL}/users"
+API_CREATE_GRAPH = f"{API_BASE_URL}/users/{USERNAME}/graphs"
+API_ADD_PIXEL = f"{API_BASE_URL}/users/{USERNAME}/graphs/graph1"
 
 
 def create_user():
@@ -52,6 +55,7 @@ def add_pixel(date, num_commits):
 
 # content = create_user()
 # content = create_graph()
-content = add_pixel("20240816", "2")
 
+today = dt.now().strftime("%Y%m%d")
+content = add_pixel(today, "2")
 print(content.text)
