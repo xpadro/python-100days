@@ -66,6 +66,15 @@ def update_pixel(update_date, num_commits):
     return response
 
 
+def delete_pixel(delete_date):
+    headers = {
+        "X-USER-TOKEN": USER_TOKEN
+    }
+
+    response = requests.delete(url=f"{API_PIXEL}/{delete_date}", headers=headers)
+    return response
+
+
 def format_date(date_to_format):
     return date_to_format.strftime("%Y%m%d")
 
@@ -73,9 +82,8 @@ def format_date(date_to_format):
 # content = create_user()
 # content = create_graph()
 # content = add_pixel(format_date(dt.now()), "2")
+# content = update_pixel(format_date(dt(year=2024, month=8, day=16)), "3")
 
-
-date = dt(year=2024, month=8, day=16)
-content = update_pixel(format_date(date), "3")
+content = delete_pixel(format_date(dt(year=2024, month=8, day=16)))
 
 print(content.text)
