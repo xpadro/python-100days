@@ -5,8 +5,9 @@ SHEETS_ENDPOINT = os.getenv("SHEETS_API")
 
 
 class DataManager:
+    def __init__(self):
+        self.endpoint = os.getenv("SHEETS_API")
 
-    @staticmethod
-    def read_data():
-        content = requests.get(SHEETS_ENDPOINT)
+    def read_data(self):
+        content = requests.get(self.endpoint)
         return content.json()['prices']
