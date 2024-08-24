@@ -6,6 +6,5 @@ prices = data_manager.read_data()
 print(prices)
 
 flight_searcher = FlightSearch()
-locations = flight_searcher.get_locations("Paris")
-print(f"locations: {locations}")
-
+city_code = flight_searcher.get_locations("BARCELONA")
+print(f"City Code: {city_code}")

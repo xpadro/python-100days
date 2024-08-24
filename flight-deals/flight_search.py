@@ -26,18 +26,33 @@ class FlightSearch:
         return requests.post(AUTH_TOKEN_ENDPOINT, headers=headers, data=data).json()['access_token']
 
     def get_locations(self, city):
-        token = self.token
-        print(f"token: {token}")
+        """
+
+        :param city:
+        :return: The IATA code for the first matching city. If response is empty, returns "N/A".
+        If city is not found, returns "NOT FOUND"
+        """
+        print(f"token: {self.token}")
 
         params = {
-            "include": "AIRPORTS",
             "max": "2",  # Avoid reaching trial quota
             "keyword": city
         }
 
         headers = {
-            "Authorization": f"Bearer {token}"
+            "Authorization": f"Bearer {self.token}",
+            "Content-Type": "application/json"
         }
 
-        content = requests.get(GET_LOCATIONS, params=params, headers=headers)
-        return content.json()
+        response = requests.get(GET_LOCATIONS, params=params, headers=headers)
+
+        try:
+            code = response.json()["data"][0]['iataCode']
+        except IndexError:
+            print(f"IndexError: No airport code found for {city}.")
+            return "N/A"
+        except KeyError:
+            print(f"KeyError: No airport code found for {city}.")
+            return "Not Found"
+
+        return code
