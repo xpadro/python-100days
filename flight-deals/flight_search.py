@@ -25,7 +25,7 @@ class FlightSearch:
 
         return requests.post(AUTH_TOKEN_ENDPOINT, headers=headers, data=data).json()['access_token']
 
-    def get_locations(self, city):
+    def get_iata_code(self, city):
         """
 
         :param city:

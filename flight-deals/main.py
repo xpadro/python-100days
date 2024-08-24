@@ -7,7 +7,7 @@ def update_iata_codes(flights, data_storage):
     city_prices = data_storage.read_data()
 
     for row in city_prices:
-        iata_code = flights.get_locations(row["city"])
+        iata_code = flights.get_iata_code(row["city"])
         data_storage.update_data(row["id"], iata_code)
 
         # slowing down requests to avoid rate limit
