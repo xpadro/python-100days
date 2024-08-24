@@ -32,7 +32,7 @@ class FlightSearch:
         :return: The IATA code for the first matching city. If response is empty, returns "N/A".
         If city is not found, returns "NOT FOUND"
         """
-        print(f"token: {self.token}")
+        print(f"Retrieving IATA code for: {city}...")
 
         params = {
             "max": "2",  # Avoid reaching trial quota
