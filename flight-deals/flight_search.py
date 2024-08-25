@@ -10,13 +10,20 @@ GET_FLIGHT_OFFERS = "https://test.api.amadeus.com/v2/shopping/flight-offers"
 
 
 class FlightSearch:
+    """
+    Manages flight information from Amadeus API endpoints
+    """
 
     def __init__(self):
         self.api_key = os.getenv("FLIGHTS_API_KEY")
         self.api_secret = os.getenv("FLIGHTS_API_SECRET")
         self.token = self._get_token()
 
-    def _get_token(self):
+    def _get_token(self) -> str:
+        """
+        Request and store an authentication token to perform calls to the API
+        :return: token
+        """
         data = {
             "grant_type": "client_credentials",
             "client_id": self.api_key,
@@ -30,7 +37,13 @@ class FlightSearch:
         return requests.post(AUTH_TOKEN_ENDPOINT, headers=headers, data=data).json()['access_token']
 
     @staticmethod
-    def _map_response(data):
+    def _map_response(data: dict) -> FlightData:
+        """
+        Maps the data from the response JSON to a class FlightData and returns the cheapest flight
+
+        :param data:
+        :return: FlightData
+        """
         cheapest_flight = None
         lowest_price = None
 
@@ -47,8 +60,9 @@ class FlightSearch:
 
         return cheapest_flight
 
-    def get_iata_code(self, city):
+    def get_iata_code(self, city: str) -> str:
         """
+        Retrieves the IATA code from the requested city
 
         :param city:
         :return: The IATA code for the first matching city. If response is empty, returns "N/A".
@@ -79,7 +93,14 @@ class FlightSearch:
 
         return code
 
-    def find_cheapest_flight(self, origin_code, destination_code):
+    def find_cheapest_flight(self, origin_code: str, destination_code: str) -> FlightData:
+        """
+        Finds the cheapest flight from origin_code to destination_code for the following six months
+
+        :param origin_code:
+        :param destination_code:
+        :return: the cheapest flight based on requested origin and destination codes
+        """
         tomorrow = (dt.today() + delta(days=1)).strftime("%Y-%m-%d")
         in_six_months = (dt.now() + delta(days=(6 * 30))).strftime("%Y-%m-%d")
 
