@@ -27,6 +27,11 @@ class SongPlayer:
     def get_song_url(self, song, year):
         try:
             result = self.sp.search(q=f"track:{song} year:{year}", type="track", limit=1)
+
+            if len(result['tracks']['items']) == 0:
+                # Some songs in billboard's specific year were published in a different year
+                result = self.sp.search(q=f"track:{song}", type="track", limit=1)
+
             uri = result['tracks']['items'][0]['uri']
             print(f"Found uri for {song}")
             return uri
