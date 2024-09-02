@@ -11,6 +11,6 @@ player = SongPlayer()
 playlist = player.create_playlist(date)
 
 if playlist is not None:
-    song_urls = [player.get_song_url(s, year) for s in songs_data]
+    song_urls = [url for url in (player.get_song_url(name, year) for name in songs_data) if url is not None]
     player.add_to_playlist(playlist, song_urls)
     print("Songs added")
