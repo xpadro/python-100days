@@ -8,12 +8,9 @@ year = date.split("-")[0]
 songs_data = Billboard.get_top_100(date)
 
 player = SongPlayer()
-player.create_playlist(date)
+playlist = player.create_playlist(date)
 
-songs = []
-
-for song_data in songs_data:
-    song_url = player.get_song_url(song_data, year)
-    songs.append(song_url)
-
-print(songs)
+if playlist is not None:
+    song_urls = [player.get_song_url(s, year) for s in songs_data]
+    player.add_to_playlist(playlist, song_urls)
+    print("Songs added")
