@@ -12,9 +12,18 @@ driver = webdriver.Chrome(options=chrome_options)
 driver.get("https://orteil.dashnet.org/experiments/cookie/")
 
 
+def _extract_price(element):
+    return int(element.find_element(By.TAG_NAME, value="b").text.split("-")[1].strip())
+
+
 def buy_improvements(event):
     while event.is_set():
-        print("buy improvement")
+        buy_cursor = driver.find_element(By.ID, value="buyCursor")
+        if buy_cursor.get_attribute("class") != "grayed":
+            price = _extract_price(buy_cursor)
+            print(f"Price: {price}")
+            buy_cursor.click()
+
         time.sleep(5)   # 5 seconds.
 
 
