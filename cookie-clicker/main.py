@@ -38,8 +38,24 @@ def buy_improvements(event):
     while event.is_set():
         buy_cursor = _get_improvement("buyCursor")
         buy_grandma = _get_improvement("buyGrandma")
+        buy_factory = _get_improvement("buyFactory")
+        buy_mine = _get_improvement("buyMine")
+        buy_shipment = _get_improvement("buyShipment")
+        buy_alchemy = _get_improvement("buyAlchemy lab")
+        buy_portal = _get_improvement("buyPortal")
+        buy_time_machine = _get_improvement("buyTime machine")
+        buy_elder = _get_improvement("buyElder Pledge")
 
-        improvements = [buy_cursor, buy_grandma]
+        improvements = [buy_cursor,
+                        buy_grandma,
+                        buy_factory,
+                        buy_mine,
+                        buy_shipment,
+                        buy_alchemy,
+                        buy_portal,
+                        buy_time_machine,
+                        buy_elder]
+
         improvement_to_buy = _get_biggest_improvement(improvements)
         if improvement_to_buy is not None:
             print(f"Buying {improvement_to_buy.text}")
@@ -60,7 +76,7 @@ cookie = driver.find_element(By.ID, value="cookie")
 click_cookie_timer = Timer(click_cookie)
 
 # Wait 10 seconds and then stop the timer.
-time.sleep(100)
+time.sleep(300)
 
 improvements_timer.stop()
 click_cookie_timer.stop()
