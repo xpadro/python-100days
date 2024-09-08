@@ -1,20 +1,26 @@
-from flask import Flask
+from flask import Flask, redirect, url_for
 import random
 
 app = Flask(__name__)
 
 solution = -1
+solved = False
 
 
 @app.route("/")
 def home():
+    global solved
     global solution
+    solved = False
     solution = random.randrange(0, 9)
     return "<h1>Guess a number between 0 and 9</h1>"
 
 
 @app.route("/<int:num>")
-def hello2(num: int):
+def solve(num: int):
+    if solution == -1 or solved is True:
+        return redirect(url_for('home'))
+
     if num == solution:
         return win()
     elif num < solution:
@@ -24,6 +30,8 @@ def hello2(num: int):
 
 
 def win():
+    global solved
+    solved = True
     return "<p style='color=red'>You got me!</p>" \
            "<img src='https://media.giphy.com/media/4T7e4DmcrP9du/giphy.gif'>"
 
